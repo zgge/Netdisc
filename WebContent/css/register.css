@@ -1,0 +1,32 @@
+ @charset "UTF-8";
+#table{
+	margin:0 auto;
+	margin-top:100px;
+}
+td:first-child{
+	text-align: right;
+}
+form {
+	margin: 20px auto;
+}
+th{
+	text-align:center;
+	height:60px;
+	font-size:28px;
+}
+td{
+	height:30px;
+}
+#submit{
+	color:#44BBBB;
+	width:60px;
+	height:26px;
+	margin-left: 35px;
+	background-color: transparent;	
+}
+input[type="text"]{
+	margin-left: 20px;
+}
+input[type="password"]{
+	margin-left: 20px;
+}

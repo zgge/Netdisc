@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.SourceMapper">
+	<insert id="add" parameterType="Resource">
+		insert 
+		into resource1(id,catalog,count,filename,filesize,filetype,is_share,memo,savepath,userid,uploaddate,is_folder,father)
+		values(resource1_sequence.nextval,#{catalog},#{count},#{filename},#{filesize},#{filetype},#{is_share},#{memo},#{savepath},#{uid},#{uploaddate},#{is_folder},#{father})
+	</insert>
+	<delete id="delete" parameterType="_int">
+		delete from resource1 where id=#{id}
+	</delete>
+	<select id="list" resultType="Resource" parameterType="_int">
+		select R2.* from (select rownum as rn,R.* from (select * from resource1 order by count desc) R where is_share=1) R2 where rn&gt;#{0} and rn&lt;=#{1}+#{0}
+	</select>
+	<select id="getListById" resultType="Resource" parameterType="_int">
+		select R2.* from (select rownum as rn,R.* from (select * from resource1 order by is_folder desc) R where  userid=#{2} and father=#{3}) R2 where rn&gt;#{0} and rn&lt;=#{1}+#{0}
+	</select>
+	<select id="getListByIdOther" resultType="Resource" parameterType="_int">
+		select * from (select rownum as rn,resource1.* from resource1 where is_share=1 and  userid=#{2}) where rn&gt;#{0} and rn&lt;=#{1}+#{0}
+	</select>
+	<select id="get" resultType="Resource" parameterType="_int">
+		select * from resource1 where id=#{id}
+	</select>
+	<select id="getMyPanCount" resultType="_int" parameterType="_int">
+		select count(*) from resource1 where  userid=#{0} and father=#{1} 
+	</select> 
+	<select id="getOtherPanCount" resultType="_int" parameterType="_int">
+		select count(*) from resource1 where  userid=#{uid} and is_share=1
+	</select>
+	<select id="getAllCount" resultType="_int">
+		select count(*) from resource1 where is_share=1
+	</select>
+	<update id="update" parameterType="Resource">
+		update resource1 
+		set catalog=#{catalog},filename=#{filename},is_share=#{is_share},memo=#{memo} where id=#{id}
+	</update>
+	<update id="addCount" parameterType="_int">
+		update resource1 set count=count+1 where id=#{id}
+	</update>
+	<insert id="addFolder" parameterType="Resource">
+		insert into resource1(id,userid,is_folder,father,filename) values(resource1_sequence.nextval,#{uid},1,#{father},#{filename})
+	</insert>
+	<select id="getAllResourcesByid" resultType="Resource" parameterType="_int">
+		select * from resource1 where father=#{father}
+	</select>
+</mapper>

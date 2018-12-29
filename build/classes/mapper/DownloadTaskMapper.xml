@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.DownloadTaskMapper">
+    <insert id="addTask" parameterType="DownloadTask">
+    	insert into task values(task_sequence.nextval,#{filename},#{filesize},#{savepath},#{uploaddate},#{loading},#{userid})
+    </insert>
+    <delete id="deleteTask">
+    	delete from task where loading=1
+    </delete>
+    <update id="updateTask" parameterType="DownloadTask">
+    	update task set loading=#{loading} where savepath=#{savepath}
+    </update>
+    <select id="getList" parameterType="_int" resultType="DownloadTask" >
+    	select * from task where userid=#{userid}
+    </select>
+</mapper>
